@@ -5,6 +5,12 @@ async function selectSpaceTagBySpaceIdx(spaceIdx) {
     return await mysql.query(selectSql, [spaceIdx]);
 }
 
+async function selectSpaceIdxTagBySpaceTagContent(spaceTagContent){
+    const selectSql = `SELECT * FROM spaceTag WHERE spaceTagContent = ?`
+    return await mysql.query(selectSql, [spaceTagContent]);
+}
+
 module.exports = {
-    selectSpaceTagBySpaceIdx
+    selectSpaceTagBySpaceIdx,
+    selectSpaceIdxTagBySpaceTagContent
 }

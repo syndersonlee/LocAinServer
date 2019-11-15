@@ -5,6 +5,12 @@ async function selectUserLikeByUserIdx(userIdx) {
     return await mysql.query(selectSql, [userIdx]);
 }
 
+async function selectUserLikeByUserIdxAndSpaceIdx(userIdx, spaceIdx) {
+    const selectSql = `SELECT * FROM userLike WHERE userIdx = ? AND spaceIdx = ?`;
+    return await mysql.query(selectSql, [userIdx, spaceIdx]); 
+}
+
 module.exports = {
-    selectUserLikeByUserIdx
+    selectUserLikeByUserIdx,
+    selectUserLikeByUserIdxAndSpaceIdx
 }
