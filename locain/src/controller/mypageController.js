@@ -57,8 +57,53 @@ async function getMyReservation(req, res) {
         errResponse(res, returnCode.INTERNAL_SERVER_ERROR, '서버 오류');
     }
 }
+
+async function getMyImod(req, res) {
+    try {
+        const userIdx = verify(req.headers.authorization);
+        const getMyImod = await mypageService.getMyImod(req.params.reservationIdx); 
+        if(userIdx < 0){
+            console.log('토큰 오류');
+            errResponse(res, returnCode.UNAUTHORIZED, '토큰 오류');
+        } else if(getMyImod == undefined){
+            console.log('예약현황 오류');
+            errResponse(res, returnCode.BAD_REQUEST, '예약현황 오류');
+        } 
+        else {
+            console.log('imod 예약 페이지 성공');
+            response(res, returnCode.OK, 'imod 예약 페이지 성공', getMyImod);
+        }
+    } catch (error) {
+        console.log(error.message);
+        errResponse(res, returnCode.INTERNAL_SERVER_ERROR, '서버 오류');
+    }
+}
+
+async function postMyImod(req, res) {
+    try {
+        const userIdx = verify(req.headers.authorization);
+        const postMyImod = await mypageService.postMyImod(req.params.reservationIdx); 
+        if(userIdx < 0){
+            console.log('토큰 오류');
+            errResponse(res, returnCode.UNAUTHORIZED, '토큰 오류');
+        } else if(postMyImod == undefined){
+            console.log('예약현황 오류');
+            errResponse(res, returnCode.BAD_REQUEST, '예약현황 오류');
+        } 
+        else {
+            console.log('imod 호출 성공');
+            response(res, returnCode.OK, 'imod 호출 성공', postMyImod);
+        }
+    } catch (error) {
+        console.log(error.message);
+        errResponse(res, returnCode.INTERNAL_SERVER_ERROR, '서버 오류');
+    }
+}
+
 module.exports = {
     getMypage,
     getMyUserLike,
-    getMyReservation
+    getMyReservation,
+    getMyImod,
+    postMyImod
 }

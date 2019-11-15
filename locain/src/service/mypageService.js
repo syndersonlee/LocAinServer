@@ -54,10 +54,12 @@ async function getMyUserLike(userIdx) {
                 }))
             }
             const parsedObject = {
+                spaceIdx : spaceData[0].spaceIdx,
                 spaceName : spaceData[0].spaceName,
                 likeOn : true,
                 spaceDetail : spaceData[0].spaceDetail,
-                userSpaceTag : userSpaceTag
+                userSpaceTag : userSpaceTag,
+                spaceImg : spaceData[0].spaceImg
             }
             parsedData.push(parsedObject);
         }))
@@ -84,14 +86,45 @@ async function getMyReservation(reservationIdx){
             reservationEmail : userData[0].userEmail,
             payment : reservationData[0].reservationPayment,
             requirement : reservationData[0].requirement,
-            registrationFee : reservationData[0].reservationPrice
+            registrationFee : reservationData[0].reservationPrice,
         }
         return parsedObject;
     }
 }
 
+async function getMyImod(reservationIdx) {
+    const reservationData = await reservationDao.selectReservationByIdx(reservationIdx);
+    if(reservationData.length == 0){
+        return undefined;
+    } else {
+        const targetAddress = await spaceDao.selectSpaceByIdx(reservationData[0].spaceIdx);
+        const parsedObject = {
+            currentLocation : "인천 연수구 송도동",
+            targetLocation : targetAddress[0].spaceLocationDetail
+        }
+        return parsedObject;
+    }
+}
+
+async function postMyImod(reservationIdx) {
+    const reservationData = await reservationDao.selectReservationByIdx(reservationIdx);
+    if(reservationData.length == 0){
+        return undefined;
+    } else {
+        const targetSpace = await spaceDao.selectSpaceByIdx(reservationData[0].spaceIdx);
+        const targetSpaceName = targetSpace[0].spaceName;
+        const dayformat = moment().format('YYYY년 MM월 DD일');
+        const timeformat = moment().format('hh:mm a');
+        const parsedArray = [`${targetSpaceName}로 이동합니다`,dayformat,  timeformat]
+        return parsedArray;
+    }
+}
+
+
 module.exports = {
     getMypage,
     getMyUserLike,
-    getMyReservation
+    getMyReservation,
+    getMyImod,
+    postMyImod
 }
