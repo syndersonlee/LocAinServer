@@ -15,8 +15,14 @@ async function selectSpaceByTopSearch() {
     const selectSql = `SELECT * FROM space ORDER BY spaceIndex DESC LIMIT 3`
     return await mysql.query(selectSql, []);
 }
+
+async function selectAllSpace() {
+    const selectSql = `SELECT * FROM space`
+    return await mysql.query(selectSql, []);
+}
 module.exports = {
     selectSpaceByIdx,
     selectSpaceByTopReservation,
-    selectSpaceByTopSearch
+    selectSpaceByTopSearch,
+    selectAllSpace
 }
