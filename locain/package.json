@@ -15,7 +15,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
     "morgan": "~1.9.1",
-    "npm": "^6.13.0",
+    "npm": "^6.14.6",
     "promise-mysql": "^4.1.1"
   }
 }
